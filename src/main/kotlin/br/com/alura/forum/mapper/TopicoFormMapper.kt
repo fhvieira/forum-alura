@@ -14,8 +14,8 @@ class TopicoFormMapper(private val usuarioService: UsuarioService,
         return Topico(
             titulo = form.titulo,
             mensagem = form.mensagem,
-            autor = usuarioService.findPorId(form.idAutor),
-            curso = cursoService.findPorId(form.idCurso)
+            autor = usuarioService.buscarPorId(form.idAutor),
+            curso = cursoService.buscarPorId(form.idCurso)
         )
     }
 

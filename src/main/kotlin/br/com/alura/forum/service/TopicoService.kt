@@ -11,8 +11,8 @@ import java.util.stream.Collectors
 @Service
 class TopicoService(
         private var topicos: List<Topico>,
-        private var usuarioService: UsuarioService,
-        private var cursoService: CursoService,
+        usuarioService: UsuarioService,
+        cursoService: CursoService,
         private var topicoViewMapper: TopicoViewMapper
 ) {
 
@@ -21,24 +21,24 @@ class TopicoService(
                 id = 1,
                 titulo = "primeiro topico",
                 mensagem = "primeiro topico de teste",
-                curso = cursoService.findPorId(idCurso = 1),
-                autor = usuarioService.findPorId(1)
+                curso = cursoService.buscarPorId(idCurso = 1),
+                autor = usuarioService.buscarPorId(1)
         )
 
         val topico2 = Topico(
                 id = 2,
                 titulo = "segundo topico",
                 mensagem = "segundo topico de teste",
-                curso = cursoService.findPorId(idCurso = 1),
-                autor = usuarioService.findPorId(1)
+                curso = cursoService.buscarPorId(idCurso = 1),
+                autor = usuarioService.buscarPorId(1)
         )
 
         val topico3 = Topico(
                 id = 3,
                 titulo = "terceiro topico",
                 mensagem = "terceiro topico de teste",
-                curso = cursoService.findPorId(idCurso = 1),
-                autor = usuarioService.findPorId(1)
+                curso = cursoService.buscarPorId(idCurso = 1),
+                autor = usuarioService.buscarPorId(1)
         )
 
         topicos = listOf(topico1, topico2, topico3)
@@ -65,7 +65,7 @@ class TopicoService(
     fun cadastrar(topico: Topico): TopicoView {
         topico.id = topicos.size.plus(1L)
         topicos = topicos.plus(topico)
-        return topicoViewMapper.map(topico);
+        return topicoViewMapper.map(topico)
     }
 
     fun alterar(form: AlteracaoTopicoForm): TopicoView {
@@ -83,7 +83,7 @@ class TopicoService(
 
         topicos = topicos.minus(topico).plus(topicoAlterado)
 
-        return topicoViewMapper.map(topico);
+        return topicoViewMapper.map(topico)
     }
 
     fun excluir(id: Long) {

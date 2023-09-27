@@ -14,7 +14,7 @@ class CursoService(private var cursos: List<Curso>) {
         ))
     }
 
-    fun findPorId(idCurso: Long): Curso {
+    fun buscarPorId(idCurso: Long): Curso {
         return cursos.stream().filter { c ->
             c.id == idCurso
         }.findFirst().get()
