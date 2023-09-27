@@ -17,7 +17,7 @@ class RespostaController(private val service: RespostaService) {
 
     @GetMapping("/respostas/{id}")
     fun buscarPorId(@PathVariable id: Long): RespostaView {
-        return service.buscarPorId(id)
+        return service.toRespostaView(id)
     }
 
     @PostMapping("/respostas")
@@ -27,6 +27,11 @@ class RespostaController(private val service: RespostaService) {
 
     @PutMapping("/resposta")
     fun alterar(@RequestBody form: AlteracaoRespostasForm): RespostaView {
-        TODO("not yet implemented")
+        return service.alterar(form)
+    }
+
+    @DeleteMapping("/respostas/{id}")
+    fun deletar(@PathVariable id: Long) {
+        service.deletar(id)
     }
 }
