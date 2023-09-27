@@ -1,6 +1,8 @@
 package br.com.alura.forum.service
 
+import br.com.alura.forum.dto.NovaRespostaForm
 import br.com.alura.forum.dto.RespostaView
+import br.com.alura.forum.mapper.RespostaFormMapper
 import br.com.alura.forum.mapper.RespostaViewMapper
 import br.com.alura.forum.model.Resposta
 import org.springframework.stereotype.Service
@@ -11,7 +13,8 @@ class RespostaService(
         private var respostas: List<Resposta>,
         usuarioService: UsuarioService,
         topicoService: TopicoService,
-        private var respostaViewMapper: RespostaViewMapper
+        private var respostaViewMapper: RespostaViewMapper,
+        private var respostaFormMapper: RespostaFormMapper
 ) {
 
     init {
@@ -53,6 +56,16 @@ class RespostaService(
         return respostaViewMapper.map(respostas.stream()
                 .filter { r -> r.id == id }
                 .findFirst().get())
+    }
+
+    fun cadastrar(form: NovaRespostaForm): RespostaView {
+        val resposta = respostaFormMapper.map(form)
+
+        resposta.id = respostas.size.plus(1L)
+
+        respostas = respostas.plus(resposta)
+
+        return respostaViewMapper.map(resposta)
     }
 
 }
