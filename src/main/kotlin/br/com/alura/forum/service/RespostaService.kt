@@ -44,9 +44,15 @@ class RespostaService(
 
     fun listar(idTopico: Long): List<RespostaView> {
         return respostas.stream()
-                .filter {r -> r.topico.id == idTopico }
+                .filter { r -> r.topico.id == idTopico }
                 .map { r -> respostaViewMapper.map(r) }
                 .collect(Collectors.toList())
+    }
+
+    fun buscarPorId(id: Long): RespostaView {
+        return respostaViewMapper.map(respostas.stream()
+                .filter { r -> r.id == id }
+                .findFirst().get())
     }
 
 }

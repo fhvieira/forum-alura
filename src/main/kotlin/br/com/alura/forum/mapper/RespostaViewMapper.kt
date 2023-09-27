@@ -9,8 +9,10 @@ class RespostaViewMapper: Mapper<Resposta, RespostaView> {
 
     override fun map(t: Resposta): RespostaView {
         return RespostaView(
+                id = t.id,
                 mensagem = t.mensagem,
-                solucao = t.solucao
+                solucao = t.solucao,
+                dataCriacao = t.dataCriacao
         )
     }
 
