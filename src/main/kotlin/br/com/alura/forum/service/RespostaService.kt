@@ -3,6 +3,7 @@ package br.com.alura.forum.service
 import br.com.alura.forum.dto.AlteracaoRespostasForm
 import br.com.alura.forum.dto.NovaRespostaForm
 import br.com.alura.forum.dto.RespostaView
+import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.mapper.RespostaFormMapper
 import br.com.alura.forum.mapper.RespostaViewMapper
 import br.com.alura.forum.model.Resposta
@@ -57,7 +58,7 @@ class RespostaService(
     fun buscarPorId(id: Long): Resposta {
         return respostas.stream()
                 .filter { r -> r.id == id }
-                .findFirst().get()
+                .findFirst().orElseThrow { NotFoundException("Ressposta não encontrada") }
     }
 
     fun toRespostaView(id: Long): RespostaView {

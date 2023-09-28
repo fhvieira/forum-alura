@@ -51,11 +51,9 @@ class TopicoService(
     }
 
     fun buscarPorId(id: Long): Topico {
-        return topicos.stream().filter { t ->
-            t.id == id
-        }.findFirst().orElseThrow{
-            NotFoundException("Topico não encontrado")
-        }
+        return topicos.stream()
+            .filter { t -> t.id == id }
+            .findFirst().orElseThrow{ NotFoundException("Topico não encontrado") }
     }
 
     fun toTopicoView(id: Long): TopicoView {

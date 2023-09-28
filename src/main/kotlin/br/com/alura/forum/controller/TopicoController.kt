@@ -29,7 +29,8 @@ class TopicoController(private val service: TopicoService,
     @PostMapping
     fun cadastrar(
             @RequestBody @Valid form: NovoTopicoForm,
-            uriBuilder: UriComponentsBuilder): ResponseEntity<TopicoView> {
+            uriBuilder: UriComponentsBuilder
+    ): ResponseEntity<TopicoView> {
         val topico = topicoFormMapper.map(form);
         val topicoCadastrado = service.cadastrar(topico)
         val uri = uriBuilder.path("/topicos/${topicoCadastrado.id}").build().toUri()
