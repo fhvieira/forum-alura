@@ -7,8 +7,10 @@ import br.com.alura.forum.service.UsuarioService
 import org.springframework.stereotype.Component
 
 @Component
-class TopicoFormMapper(private val usuarioService: UsuarioService,
-                       private val cursoService: CursoService): Mapper<NovoTopicoForm, Topico> {
+class TopicoFormMapper(
+    private val usuarioService: UsuarioService,
+    private val cursoService: CursoService
+): Mapper<NovoTopicoForm, Topico> {
 
     override fun map(form: NovoTopicoForm): Topico {
         return Topico(

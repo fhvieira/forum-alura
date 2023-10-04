@@ -13,8 +13,6 @@ import java.util.stream.Collectors
 @Service
 class RespostaService(
     private var respostas: List<Resposta>,
-    usuarioService: UsuarioService,
-    topicoService: TopicoService,
     private var respostaViewMapper: RespostaViewMapper,
     private var respostaFormMapper: RespostaFormMapper
 ) {

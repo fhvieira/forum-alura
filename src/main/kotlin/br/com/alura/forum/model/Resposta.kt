@@ -9,12 +9,10 @@ data class Resposta (
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
         val mensagem: String,
-
+        val solucao: Boolean,
+        val dataCriacao: LocalDateTime = LocalDateTime.now(),
         @ManyToOne
         val autor: Usuario,
-
         @ManyToOne
-        val topico: Topico,
-        val solucao: Boolean,
-        val dataCriacao: LocalDateTime = LocalDateTime.now()
+        val topico: Topico
 )
