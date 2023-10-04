@@ -5,53 +5,26 @@ import br.com.alura.forum.dto.TopicoView
 import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.mapper.TopicoViewMapper
 import br.com.alura.forum.model.Topico
+import br.com.alura.forum.repository.TopicoRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.stream.Collectors
 
 @Service
 class TopicoService(
-        private var topicos: List<Topico>,
-        usuarioService: UsuarioService,
-        cursoService: CursoService,
-        private var topicoViewMapper: TopicoViewMapper
+    private val repository: TopicoRepository,
+    usuarioService: UsuarioService,
+    cursoService: CursoService,
+    private var topicoViewMapper: TopicoViewMapper
 ) {
-
-    init {
-        val topico1 = Topico(
-                id = 1,
-                titulo = "primeiro topico",
-                mensagem = "primeiro topico de teste",
-                curso = cursoService.buscarPorId(idCurso = 1),
-                autor = usuarioService.buscarPorId(1)
-        )
-
-        val topico2 = Topico(
-                id = 2,
-                titulo = "segundo topico",
-                mensagem = "segundo topico de teste",
-                curso = cursoService.buscarPorId(idCurso = 1),
-                autor = usuarioService.buscarPorId(1)
-        )
-
-        val topico3 = Topico(
-                id = 3,
-                titulo = "terceiro topico",
-                mensagem = "terceiro topico de teste",
-                curso = cursoService.buscarPorId(idCurso = 1),
-                autor = usuarioService.buscarPorId(1)
-        )
-
-        topicos = listOf(topico1, topico2, topico3)
-    }
-
     fun listar(): List<TopicoView> {
-        return topicos.stream().map { t ->
-            topicoViewMapper.map(t)
-        }.collect(Collectors.toList())
+        return repository.findAll().stream()
+            .map { t -> topicoViewMapper.map(t) }
+            .collect(Collectors.toList())
     }
 
     fun buscarPorId(id: Long): Topico {
-        return topicos.stream()
+        return repository.findById(id).stream()
             .filter { t -> t.id == id }
             .findFirst().orElseThrow{ NotFoundException("Topico não encontrado") }
     }
@@ -60,32 +33,25 @@ class TopicoService(
         return topicoViewMapper.map(buscarPorId(id))
     }
 
+    @Transactional
     fun cadastrar(topico: Topico): TopicoView {
-        topico.id = topicos.size.plus(1L)
-        topicos = topicos.plus(topico)
-        return topicoViewMapper.map(topico)
+        return topicoViewMapper.map(repository.save(topico))
     }
 
+    @Transactional
     fun alterar(form: AlteracaoTopicoForm): TopicoView {
         val topico = buscarPorId(form.id)
 
-        val topicoAlterado = Topico(
-                form.id,
-                form.titulo,
-                form.mensagem,
-                topico.curso,
-                topico.autor,
-                topico.status,
-                topico.respostas,
-                topico.dataCriacao)
+        val topicoAlterado = topico.copy(titulo = form.titulo, mensagem = form.mensagem)
 
-        topicos = topicos.minus(topico).plus(topicoAlterado)
+        repository.save(topicoAlterado)
 
         return topicoViewMapper.map(topico)
     }
 
+    @Transactional
     fun excluir(id: Long) {
-        topicos = topicos.minus(buscarPorId(id))
+        repository.deleteById(id)
     }
 
 }

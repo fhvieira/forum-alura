@@ -23,6 +23,4 @@ data class Topico (
         @OneToMany
         val respostas: List<Resposta> = ArrayList(),
         val dataCriacao: LocalDateTime = LocalDateTime.now()
-) {
-        constructor() : this(null, "", "", Curso(), Usuario())
-}
+)
